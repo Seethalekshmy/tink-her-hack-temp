@@ -43,15 +43,26 @@ def callback():
     Google sends us a temporary "code" in the URL.
     We exchange that code for real access tokens.
     """
+    # If the user visits /callback directly without parameters, show a helpful error
+    if "code" not in request.args:
+        return "<h3>Missing authorization code.</h3><p>Please start the login process from <a href='/auth'>the login page</a>.</p>", 400
+
     # Verify the state matches what we stored — prevents CSRF attacks
-    if request.args.get("state") != session.get("oauth_state"):
+    state = request.args.get("state")
+    if state != session.get("oauth_state"):
         return jsonify({"error": "State mismatch. Possible CSRF attack."}), 400
 
     flow = get_auth_flow()
+    
+    # Optional: pass the state from the session back to the flow
+    # flow = get_auth_flow(state=session.get("oauth_state")) # if we modified get_auth_flow to accept state
 
     # Exchange the temporary code Google gave us for real access tokens
     # This is like trading a ticket stub for the actual item
-    flow.fetch_token(authorization_response=request.url)
+    try:
+        flow.fetch_token(authorization_response=request.url)
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch token: {str(e)}"}), 500
 
     # Save the credentials (tokens) so we can use them on future requests
     credentials = flow.credentials
