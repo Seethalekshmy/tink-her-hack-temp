@@ -1,0 +1,409 @@
+/* ─────────────────────────────────────────────
+   GREENBYTE — Design System
+   ───────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --accent: #4ade80;
+  /* bright green */
+  --accent-dim: #16a34a;
+  --surface: rgba(255, 255, 255, 0.09);
+  --surface-alt: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.14);
+  --text-primary: #f0fdf4;
+  --text-muted: rgba(240, 253, 244, 0.6);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+/* ─── Reset ─── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─── Base ─── */
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  background: url("forest.jpg") no-repeat center center / cover fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+/* dark overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg,
+      rgba(5, 20, 10, 0.72) 0%,
+      rgba(5, 30, 15, 0.65) 100%);
+  backdrop-filter: blur(2px);
+  z-index: -1;
+}
+
+/* ─── Header bar ─── */
+.header {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-shadow: 0 0 24px rgba(74, 222, 128, 0.4);
+}
+
+.tagline {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Dashboard grid ─── */
+.dashboard {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── Glass card base ─── */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+}
+
+/* ─── Left panel ─── */
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ─── Chart cards ─── */
+.chart-card {
+  padding: 20px 22px;
+}
+
+.chart-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+/* Bar chart */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 100px;
+}
+
+.bars span {
+  flex: 1;
+  background: linear-gradient(to top, var(--accent-dim), var(--accent));
+  border-radius: 5px 5px 0 0;
+  min-width: 0;
+  transition: opacity 0.2s;
+}
+
+.bars span:hover {
+  opacity: 0.75;
+}
+
+/* Donut chart */
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.donut {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) 0% 65%,
+      rgba(255, 255, 255, 0.12) 65% 100%);
+  position: relative;
+}
+
+.donut::after {
+  content: "65%";
+  position: absolute;
+  inset: 18px;
+  background: rgba(10, 30, 15, 0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Stats grid ─── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.stat-card {
+  padding: 16px 18px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: background 0.25s, transform 0.2s;
+}
+
+.stat-card:hover {
+  background: rgba(74, 222, 128, 0.07);
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* ─── Right panel ─── */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Hero text */
+.hero {
+  padding: 28px 30px;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-shadow: 0 0 32px rgba(74, 222, 128, 0.35);
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.hero p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 340px;
+}
+
+/* Insight card */
+.insight-card {
+  padding: 20px 22px;
+}
+
+.insight-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.insight-header .badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+#severity {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+#tip {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+/* Status message */
+.status-wrap {
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+#status-msg {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+#status-msg a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#status-msg a:hover {
+  text-decoration: underline;
+}
+
+/* ─── Skeleton loader ─── */
+.skeleton {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.06) 25%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+  height: 1.2em;
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 760px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* ─── Dynamic update states ─── */
+
+/* Subtle pulse on stat cards while fetching */
+.stat-card.refreshing {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Flash highlight when a value changes */
+@keyframes flash {
+  0% {
+    color: var(--accent);
+    transform: scale(1.08);
+  }
+
+  100% {
+    color: var(--text-primary);
+    transform: scale(1);
+  }
+}
+
+.value-flash {
+  animation: flash 0.5s ease-out forwards;
+}
+
+/* Refresh countdown badge */
+#refresh-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(74, 222, 128, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+  transition: opacity 0.3s;
+}

@@ -2,27 +2,27 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+# [Project Name] 🎯Greenbyte
 
 ## Basic Details
+green byte is a data analytics web tool that help to manage digital waste . 
 
-### Team Name: [Name]
+### Team Name: GREENBYTE
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: SEETHA LEKSHMI G - COLLEGE OF ENGINEERING ATTINGAL
 
 ### Hosted Project Link
 [mention your project hosted link here]
 
 ### Project Description
-[2-3 lines about what your project does]
+unread files  generate an energy for storage thereby emitting carbon.greenbyte analyses unread gmails and how much CO2 itS emitting.
 
 ### The Problem statement
-[What problem are you solving?]
+digital waste management and sustainablity
 
 ### The Solution
-[How are you solving it?]
+the primary key for sustainablity is awareness .greenbyte helps for the same analyzing the amount of unread messages and amount of carbon emitted. 
 
 ---
 
@@ -31,10 +31,10 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
+- Languages used:  JavaScript, Python, html,css
+- Frameworks used: flask
 - Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Tools used:  VS Code, Github,antigravity
 
 **For Hardware:**
 - Main components: [List main components]
@@ -46,10 +46,10 @@
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- Feature 1: analyzing the unread messages
+- Feature 2: genearting charts based on the analysis
+- Feature 3: carbon emission calculation
+
 
 ---
 
@@ -59,12 +59,12 @@ List the key features of your project:
 
 #### Installation
 ```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+ pip install -r requirements.txt
 ```
 
 #### Run
 ```bash
-[Run commands - e.g., npm start, python app.py]
+[ python app.py]
 ```
 
 ### For Hardware:
@@ -83,27 +83,16 @@ List the key features of your project:
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img src="screenshot.png" alt="Project Banner" width="100%">
 
 #### Diagrams
 
 **System Architecture:**
 
-![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
-
+frontend request 
 **Application Workflow:**
 
-![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
-
+login with email -> email accessed -> unread messages fetched -> carbon emission calculated -> charts generated
 ---
 
 ### For Hardware:
@@ -361,9 +350,7 @@ python script.py -v --format json data.json
 ## Project Demo
 
 ### Video
-[Add your demo video link here - YouTube, Google Drive, etc.]
-
-*Explain what the video demonstrates - key features, user flow, technical highlights*
+https://drive.google.com/file/d/12nk7kelgcL1yJMvqVnvsQgmed_bmEu3w/view?usp=sharing
 
 ### Additional Demos
 [Add any extra demo materials/links - Live site, APK download, online demo, etc.]
@@ -372,9 +359,9 @@ python script.py -v --format json data.json
 
 ## AI Tools Used (Optional - For Transparency Bonus)
 
-If you used AI tools during development, document them here for transparency:
+If you used AI tools during development, document them here for transparency:chatgpt,claude,copilot
 
-**Tool Used:** [e.g., GitHub Copilot, v0.dev, Cursor, ChatGPT, Claude]
+**Tool Used:** GitHub Copilot, anitigravity , ChatGPT, Claude]
 
 **Purpose:** [What you used it for]
 - Example: "Generated boilerplate React components"
@@ -382,12 +369,11 @@ If you used AI tools during development, document them here for transparency:
 - Example: "Code review and optimization suggestions"
 
 **Key Prompts Used:**
-- "Create a REST API endpoint for user authentication"
-- "Debug this async function that's causing race conditions"
-- "Optimize this database query for better performance"
+- help me implement the backend 
+- align the dashboard
+- ""
 
-**Percentage of AI-generated code:** [Approximately X%]
-
+**Percentage of AI-generated code:** 90%
 **Human Contributions:**
 - Architecture design and planning
 - Custom business logic implementation

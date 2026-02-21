@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GREENBYTE — Digital Carbon Dashboard</title>
+  <meta name="description"
+    content="Greenbyte analyses your Gmail storage and estimates its carbon footprint to help you reduce invisible digital pollution." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <span class="logo">GREENBYTE</span>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span id="refresh-badge">Refreshing in 30s</span>
+      <span class="tagline">Digital Carbon Footprint Dashboard</span>
+    </div>
+  </header>
+
+  <!-- ── Dashboard ── -->
+  <main class="dashboard">
+
+    <!-- ════ LEFT PANEL ════ -->
+    <div class="left-panel">
+
+      <!-- Bar chart card -->
+      <div class="glass chart-card">
+        <div class="chart-title">Email Volume · Last 6 Months</div>
+        <div class="bars">
+          <span style="height:40%"></span>
+          <span style="height:60%"></span>
+          <span style="height:85%"></span>
+          <span style="height:30%"></span>
+          <span style="height:70%"></span>
+          <span style="height:50%"></span>
+        </div>
+      </div>
+
+      <!-- Donut chart card -->
+      <div class="glass chart-card">
+        <div class="chart-title">Storage Breakdown</div>
+        <div class="donut-wrap">
+          <div class="donut"></div>
+          <div class="donut-legend">
+            <div class="legend-item">
+              <span class="legend-dot" style="background:#4ade80;"></span>
+              Old emails (65%)
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background:rgba(255,255,255,0.2);"></span>
+              Recent emails (35%)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live stats grid from backend -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <span class="stat-icon">📧</span>
+          <div class="stat-label">Old Emails</div>
+          <div class="stat-value" id="unused"><span class="skeleton"></span></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📎</span>
+          <div class="stat-label">Large Attachments</div>
+          <div class="stat-value" id="attachments"><span class="skeleton"></span></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">💾</span>
+          <div class="stat-label">Storage Analyzed</div>
+          <div class="stat-value" id="storage"><span class="skeleton"></span></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🌍</span>
+          <div class="stat-label">CO₂ / Year</div>
+          <div class="stat-value" id="carbon"><span class="skeleton"></span></div>
+        </div>
+        <div class="stat-card" style="grid-column: span 2;">
+          <span class="stat-icon">🌳</span>
+          <div class="stat-label">Trees needed to offset this CO₂</div>
+          <div class="stat-value" id="trees"><span class="skeleton"></span></div>
+          <div id="trees-sub" style="font-size:0.75rem; margin-top:5px; opacity:0.6;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════ RIGHT PANEL ════ -->
+    <div class="right-panel">
+
+      <!-- Hero -->
+      <div class="glass hero">
+        <h1>GREEN<br>BYTE</h1>
+        <p>
+          A sustainability dashboard that analyses unused digital data
+          and estimates its carbon footprint — helping you understand
+          and reduce invisible digital pollution.
+        </p>
+      </div>
+
+      <!-- Insight from backend -->
+      <div class="glass insight-card">
+        <div class="insight-header">
+          <span class="badge">Live Insight</span>
+        </div>
+        <div id="severity"><span class="skeleton" style="width:50%;"></span></div>
+        <p id="tip"><span class="skeleton" style="width:80%; margin-top:10px; display:block;"></span></p>
+      </div>
+
+      <!-- Status / auth message -->
+      <div class="status-wrap">
+        <p id="status-msg">⏳ Fetching your Gmail data from backend…</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const BASE = "http://localhost:5001";
+    const POLL_INTERVAL = 30; // seconds between refreshes
+    let countdown = POLL_INTERVAL;
+    let pollTimer = null;
+    let countdownTimer = null;
+    let isAuthError = false;
+
+    /* ── Fetch & update ── */
+    function fetchData() {
+      // Show subtle pulse on stat cards while refreshing
+      document.querySelectorAll(".stat-card").forEach(c => c.classList.add("refreshing"));
+
+      fetch(BASE + "/emails/summary")
+        .then(res => {
+          if (res.status === 401) {
+            isAuthError = true;
+            setStatus('⚠️ Not authenticated. <a href="login.html" style="color:#4ade80;">Click here to securely sign in →</a>');
+            clearSkeletons();
+            stopPolling();
+            return null;
+          }
+          return res.json();
+        })
+        .then(data => {
+          document.querySelectorAll(".stat-card").forEach(c => c.classList.remove("refreshing"));
+          if (!data) return;
+
+          if (data.error) {
+            setStatus("❌ Error: " + data.error);
+            clearSkeletons();
+            return;
+          }
+
+          const s = data.email_stats;
+          const c = data.carbon_footprint;
+
+          animateText("unused", s.old_emails_count + " emails");
+          animateText("attachments", s.large_attachment_emails_count + " emails");
+          animateText("storage", s.total_size_mb + " MB");
+          animateText("carbon", c.annual_co2_kg + " kg CO₂");
+          animateText("severity", c.severity);
+          setText("tip", c.tip);
+
+          // Trees to offset comparison
+          const trees = c.comparisons.trees_needed_to_offset;
+          const treeLabel = trees < 0.01
+            ? "< 0.01 trees"
+            : trees < 1
+              ? trees.toFixed(4) + " of a tree"
+              : trees.toFixed(2) + " trees";
+          animateText("trees", treeLabel);
+          const treeSub = document.getElementById("trees-sub");
+          if (treeSub) {
+            const icons = Math.min(Math.ceil(trees), 20);
+            treeSub.textContent =
+              "🌳".repeat(icons) + (trees > 20 ? " +more" : "") +
+              " · Each tree absorbs ~21 kg CO₂/yr";
+          }
+
+          const now = new Date().toLocaleTimeString();
+          setStatus("✅ " + data.message + " · " + s.note +
+            ' &nbsp;<span id="last-updated" style="opacity:0.5;">· Updated ' + now + '</span>');
+
+          resetCountdown();
+        })
+        .catch(() => {
+          document.querySelectorAll(".stat-card").forEach(c => c.classList.remove("refreshing"));
+          setStatus("⚠️ Backend unreachable — make sure Flask is running on port 5001.");
+          clearSkeletons();
+        });
+    }
+
+    /* ── Animate value change ── */
+    function animateText(id, newVal) {
+      const el = document.getElementById(id);
+      if (!el || el.textContent === newVal) return; // skip if unchanged
+      el.classList.add("value-flash");
+      el.textContent = newVal;
+      el.addEventListener("animationend", () => el.classList.remove("value-flash"), { once: true });
+    }
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    function setStatus(html) {
+      document.getElementById("status-msg").innerHTML = html;
+    }
+
+    function clearSkeletons() {
+      ["unused", "attachments", "storage", "carbon", "severity", "tip", "trees"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = "—";
+      });
+    }
+
+    /* ── Polling ── */
+    function startPolling() {
+      fetchData(); // immediate first call
+      pollTimer = setInterval(fetchData, POLL_INTERVAL * 1000);
+      startCountdown();
+    }
+
+    function stopPolling() {
+      clearInterval(pollTimer);
+      clearInterval(countdownTimer);
+    }
+
+    function resetCountdown() {
+      countdown = POLL_INTERVAL;
+    }
+
+    function startCountdown() {
+      countdownTimer = setInterval(() => {
+        countdown--;
+        const badge = document.getElementById("refresh-badge");
+        if (badge) badge.textContent = "Refreshing in " + countdown + "s";
+        if (countdown <= 0) countdown = POLL_INTERVAL;
+      }, 1000);
+    }
+
+    /* ── Visibility API: pause when tab is hidden ── */
+    document.addEventListener("visibilitychange", () => {
+      if (isAuthError) return;
+      if (document.hidden) {
+        stopPolling();
+      } else {
+        startPolling();
+      }
+    });
+
+    startPolling();
+  </script>
+
+</body>
+
+</html>

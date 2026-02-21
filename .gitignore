@@ -1,0 +1,32 @@
+# .gitignore — Files that should NEVER be committed to Git
+
+# ── Secrets & credentials ──────────────────────────────────────
+.env                # Contains your Flask secret key & config
+credentials.json    # Your Google Cloud app credentials — NEVER share this
+api.json            # Alternative name for credentials.json
+token.json          # Saved user OAuth tokens — generated after /auth
+
+# ── Python generated files ─────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# ── Virtual environments ───────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── macOS system files ─────────────────────────────────────────
+.DS_Store
+
+# ── IDE settings ───────────────────────────────────────────────
+.vscode/
+.idea/
+
+.env    
+.env.example
+.env
+
+.env/*

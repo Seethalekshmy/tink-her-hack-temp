@@ -1,0 +1,19 @@
+# requirements.txt — All Python packages GREENBYTE needs
+#
+# Install everything with:
+#   pip install -r requirements.txt
+
+# Flask — the web framework that powers our backend server
+Flask==3.0.3
+
+# flask-cors — allows our frontend to call this backend (Cross-Origin Resource Sharing)
+flask-cors==4.0.1
+
+# python-dotenv — loads variables from .env file into Python's os.environ
+python-dotenv==1.0.1
+
+# Google APIs — the official libraries for connecting to Gmail via OAuth 2.0
+google-auth==2.29.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.129.0
