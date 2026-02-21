@@ -25,7 +25,8 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback-secret-for-dev-only")
 # browsers REJECT wildcard "*" for credentialed cross-origin requests.
 # Add any other origin you use (e.g. a Vite dev server on port 5173).
 CORS(app, supports_credentials=True, origins=[
-    "https://tink-her-hack-temp-w295.onrender.com"
+    "https://tink-her-hack-temp-w295.onrender.com",
+    "https://seethalekshmy.github.io"
 ])
 
 # --- Register Blueprints (route groups) ---
