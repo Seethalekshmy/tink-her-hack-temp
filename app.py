@@ -25,18 +25,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback-secret-for-dev-only")
 # browsers REJECT wildcard "*" for credentialed cross-origin requests.
 # Add any other origin you use (e.g. a Vite dev server on port 5173).
 CORS(app, supports_credentials=True, origins=[
-    "http://localhost:5501",    # VS Code Live Server
-    "http://127.0.0.1:5501",
-    "http://localhost:3000",    # React / common dev server
-    "http://127.0.0.1:3000",
-    "http://localhost:5173",    # Vite
-    "http://localhost:8000",    # Python simple http server
-    "http://127.0.0.1:8000",
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-    "http://localhost",         # Default port 80
-    "http://127.0.0.1",
-    "null",                     # file:// opened directly in browser
+    "https://tink-her-hack-temp-w295.onrender.com"
 ])
 
 # --- Register Blueprints (route groups) ---
@@ -47,4 +36,4 @@ app.register_blueprint(email_bp)    # Handles /emails/summary
 if __name__ == "__main__":
     # debug=True auto-reloads when you save files — great for development!
     # Set debug=False in production
-    app.run(debug=True, port=5001)
+    app.run(debug=False, host="0.0.0.0", port=10000)
