@@ -3,8 +3,6 @@
 # ── Secrets & credentials ──────────────────────────────────────
 .env                # Contains your Flask secret key & config
 credentials.json    # Your Google Cloud app credentials — NEVER share this
-api.json
-token.json
 
 # ── Python generated files ─────────────────────────────────────
 __pycache__/
